@@ -12,9 +12,9 @@ class CategoriesScreen extends StatelessWidget {
       listener: (context , state){},
       builder: (context , state){
         return ListView.separated(
-          itemBuilder: (context , index)=> buildCatItems(ShopCubit.get(context).categoriesModel.data.data[index]),
+          itemBuilder: (context , index)=> buildCatItems(ShopCubit.get(context).categoriesModel!.data.data[index]),
           separatorBuilder: (context , index)=> myDivider(),
-          itemCount: ShopCubit.get(context).categoriesModel.data.data.length,
+          itemCount: ShopCubit.get(context).categoriesModel!.data.data.length,
         );
       },
     ) ;

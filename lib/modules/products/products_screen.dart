@@ -1,9 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/components/component/component.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/home_model.dart';
 import 'package:shop_app/shop_cubit/cubit.dart';
@@ -11,21 +9,21 @@ import 'package:shop_app/shop_cubit/states.dart';
 import 'package:shop_app/style/colors.dart';
 
 class ProductsScreen extends StatelessWidget {
-  const ProductsScreen({Key key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
         builder: (context, state) {
-          return ConditionalBuilder(
-            condition: ShopCubit.get(context).homeModel != null &&
-                ShopCubit.get(context).categoriesModel != null,
-            builder: (context) => builderWidget(
-                ShopCubit.get(context).homeModel,
-                ShopCubit.get(context).categoriesModel,
-                context),
-            fallback: (context) => Center(child: CircularProgressIndicator()),
-          );
+           if (ShopCubit.get(context).homeModel != null &&
+              ShopCubit.get(context).categoriesModel != null){
+            return builderWidget(
+                ShopCubit.get(context).homeModel!,
+                ShopCubit.get(context).categoriesModel!,
+                context);
+          } else {
+          return  Center(child: CircularProgressIndicator());
+          }
         },
         listener: (context, state) {
           if(state is ShopSuccessChangeFavoriteState)
@@ -229,7 +227,7 @@ class ProductsScreen extends StatelessWidget {
                         icon: CircleAvatar(
                           radius: 15.0,
                           backgroundColor:
-                              ShopCubit.get(context).favorites[model.id]
+                              ShopCubit.get(context).favorites[model.id]!
                                   ? defaultColor
                                   : Colors.grey,
                           child: Icon(

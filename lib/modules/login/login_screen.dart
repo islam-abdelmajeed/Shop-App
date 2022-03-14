@@ -1,4 +1,3 @@
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,14 +62,14 @@ class LoginScreen extends StatelessWidget { // ignore: must_be_immutable
                           'login'.toUpperCase(),
                           style: Theme.of(context)
                               .textTheme
-                              .headline3
+                              .headline3!
                               .copyWith(color: Colors.black),
                         ),
                         Text(
                           'login now to browser our hot offers',
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1
+                              .bodyText1!
                               .copyWith(color: Colors.grey),
                         ),
                         SizedBox(
@@ -93,7 +92,7 @@ class LoginScreen extends StatelessWidget { // ignore: must_be_immutable
                         defaultFormField(
                           controller: passwordController,
                           onSubmit: (value){
-                            if(formKey.currentState.validate()){
+                            if(formKey.currentState!.validate()){
 
                               LoginCubit.get(context).userLogin(
                                 email: emailController.text,
@@ -116,25 +115,22 @@ class LoginScreen extends StatelessWidget { // ignore: must_be_immutable
                         SizedBox(
                           height: 30.0,
                         ),
-                        ConditionalBuilder(
-                          condition: state is! LoginLoadingState,
-                          builder: (BuildContext context)=>defaultButton(
-                            function: () {
-                              if(formKey.currentState.validate()){
 
-                                LoginCubit.get(context).userLogin(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                );
-                              }
+                        state is! LoginLoadingState ? defaultButton(
+                          function: () {
+                            if(formKey.currentState!.validate()){
 
-                            },
-                            text: 'Login',
-                            isUpperCase: true,
-                          ),
-                          fallback:(BuildContext context)=> Center(child: CircularProgressIndicator()) ,
+                              LoginCubit.get(context).userLogin(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                            }
 
-                        ),
+                          },
+                          text: 'Login',
+                          isUpperCase: true,
+                        ) : Center(child: CircularProgressIndicator()),
+
                         SizedBox(
                           height: 15.0,
                         ),

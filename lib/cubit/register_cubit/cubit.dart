@@ -13,13 +13,13 @@ class RegisterCubit extends Cubit<RegisterStates>{
 
   static RegisterCubit get(context) =>BlocProvider.of(context);
 
-  LoginModel loginModel;
+  late LoginModel loginModel;
 
   void userRegister({
-    @required String name,
-    @required String email,
-    @required String password,
-    @required String phone,
+    required String name,
+    required String email,
+    required String password,
+    required String phone,
 }){
 
     emit(RegisterLoadingState());
@@ -31,7 +31,7 @@ class RegisterCubit extends Cubit<RegisterStates>{
       'phone': phone,
     }).then((value){
       print(value.data);
-      loginModel =LoginModel.fromJson(value.data);
+      loginModel = LoginModel.fromJson(value.data);
 
 
 

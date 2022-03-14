@@ -13,11 +13,11 @@ class LoginCubit extends Cubit<LoginStates>{
 
   static LoginCubit get(context) =>BlocProvider.of(context);
 
-  LoginModel loginModel;
+  late LoginModel loginModel;
 
   void userLogin({
-    @required String email,
-    @required String password,
+    required String email,
+    required String password,
 }){
 
     emit(LoginLoadingState());

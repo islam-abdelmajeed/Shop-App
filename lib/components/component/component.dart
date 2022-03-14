@@ -1,4 +1,3 @@
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,34 +6,44 @@ import 'package:shop_app/shop_cubit/cubit.dart';
 import 'package:shop_app/style/colors.dart';
 
 Widget defaultFormField({
-  @required TextEditingController controller,
-  @required TextInputType type,
-  Function onSubmit,
-  Function onChanged,
-  Function onTap,
+  required TextEditingController controller,
+  required TextInputType type,
+  Function? onSubmit,
+  Function? onChanged,
+  Function? onTap,
   bool isPassword = false,
-  @required Function validate,
-  @required String label,
-  @required IconData prefix,
-  IconData suffix,
+  required Function validate,
+  required String label,
+  required IconData prefix,
+  IconData? suffix,
   bool isClickable = true,
-  Function suffixPressed,
+  Function? suffixPressed,
 }) =>
     TextFormField(
       controller: controller,
       keyboardType: type,
-      onFieldSubmitted: onSubmit,
-      onChanged: onChanged,
-      onTap: onTap,
+      onFieldSubmitted: (s){
+        onSubmit!();
+      },
+      onChanged: (s){
+        onChanged!();
+      },
+      onTap: (){
+        onTap!();
+      },
       enabled: isClickable,
       obscureText:isPassword ,
-      validator: validate,
+      validator: (s){
+        validate();
+      },
       decoration: InputDecoration(
           labelText: label,
           prefixIcon: Icon(prefix),
           suffixIcon:suffix !=null? IconButton(
             icon: Icon(suffix),
-            onPressed: suffixPressed ,
+            onPressed: (){
+              suffixPressed!();
+            } ,
           ): null,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
@@ -46,14 +55,16 @@ Widget defaultButton({
    Color background = Colors.teal,
   double radius=3.0,
   bool isUpperCase = true,
-  @required Function function,
-  @required String text,
+  required Function function,
+  required String text,
 }) =>
     Container(
       width: width,
       height: 40.0,
       child: MaterialButton(
-        onPressed: function,
+        onPressed: (){
+          function();
+        },
         child: Text(isUpperCase ?text.toUpperCase() : text,
         style: TextStyle(
           color: Colors.white,
@@ -67,11 +78,13 @@ Widget defaultButton({
     );
 
 Widget defaultTextButton({
-  @required Function function,
-  @required String text,
+  required Function function,
+  required String text,
 }) =>
     TextButton(
-      onPressed: function,
+      onPressed: (){
+        function();
+      },
       child: Text(text.toUpperCase()),
     );
 
@@ -140,17 +153,13 @@ Widget myDivider() => Padding(
       ),
     );
 
-Widget articlesBuilder(list, context, {isSearch = false}) => ConditionalBuilder(
-      condition: list.length != 0,
-      builder: (context) => ListView.separated(
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) => buildArticleItem(list[index], context),
-        separatorBuilder: (context, index) => myDivider(),
-        itemCount: list.length,
-      ),
-      fallback: (context) =>
-          isSearch ? Container() : Center(child: CircularProgressIndicator()),
-    );
+Widget articlesBuilder(list, context, {isSearch = false}) => list.length != 0 ? ListView.separated(
+  physics: BouncingScrollPhysics(),
+  itemBuilder: (context, index) => buildArticleItem(list[index], context),
+  separatorBuilder: (context, index) => myDivider(),
+  itemCount: list.length,
+) : ( isSearch ? Container() : Center(child: CircularProgressIndicator()));
+
 
 void navigateTo(context, widget) => Navigator.push(
       context,
@@ -167,7 +176,7 @@ void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       (Route<dynamic> route) => false,
     );
 
-void showToast({@required String text,@required ToastStates state}) => Fluttertoast.showToast(
+void showToast({required String text,required ToastStates state}) => Fluttertoast.showToast(
   msg: text,
   toastLength: Toast.LENGTH_LONG,
   gravity: ToastGravity.CENTER,
@@ -269,7 +278,7 @@ Widget buildListProduct( model , context , {bool isOldPrice = true})=> Padding(
                     icon: CircleAvatar(
                       radius: 15.0,
                       backgroundColor:
-                      ShopCubit.get(context).favorites[model.id]? defaultColor
+                      ShopCubit.get(context).favorites[model.id]! ? defaultColor
                           : Colors.grey,
                       child: Icon(
                         Icons.favorite_border,

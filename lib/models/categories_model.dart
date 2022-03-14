@@ -1,6 +1,6 @@
 class CategoriesModel{
-  bool status;
-  CategoriesDataModel data;
+  late bool status;
+  late CategoriesDataModel data;
 
   CategoriesModel.fromJson(Map<String , dynamic> json){
     status = json['status'];
@@ -10,7 +10,7 @@ class CategoriesModel{
 }
 
 class CategoriesDataModel{
-    int currentPage;
+   late int currentPage;
     List<DataModel> data =[];
     CategoriesDataModel.fromJson(Map<String ,dynamic> json){
       currentPage = json['current_page'];
@@ -22,9 +22,9 @@ class CategoriesDataModel{
 }
 
 class DataModel{
-  int id;
-  String name;
-  String image;
+  late int id;
+  late String name;
+  late String image;
 
   DataModel.fromJson(Map<String , dynamic> json){
     id = json['id'];

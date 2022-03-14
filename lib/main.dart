@@ -14,11 +14,11 @@ void main()async{
   DioHelper.init();
 
   Widget widget;
-  bool onboarding = CacheHelper.getData(key: 'onboarding');
-  token=  CacheHelper.getData(key: 'token');
+  bool? onboarding = CacheHelper.getData(key: 'onboarding');
+  token =  CacheHelper.getData(key: 'token');
 
   if(onboarding != null && onboarding != false){
-    if(token !=null) widget = ShopLayout();
+      if(token != null) widget = ShopLayout();
     else widget = LoginScreen();
   }else{
     widget = OnBoardScreen();
@@ -28,7 +28,7 @@ void main()async{
 
 
 class MyApp extends StatelessWidget {
-  final Widget startWidget;
+   Widget? startWidget;
 
    MyApp({this.startWidget});
   @override
